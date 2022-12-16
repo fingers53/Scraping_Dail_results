@@ -45,4 +45,3 @@ file_name_electionsireland = "C:/Users/fenlo/work repos/Scraping_Dail_results/el
 df_irelandelection = pd.read_parquet(file_name_irelandelection)
 df_electionsireland = pd.read_parquet(file_name_electionsireland)
 
-import recordlinkage
