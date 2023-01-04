@@ -2,6 +2,9 @@ import pandas as pd
 from google.cloud import bigquery
 
 GOOGLE_APPLICATION_CREDENTIALS = "secrets/encoded-axis-369815-759553ed797a.json"
+
+GOOGLE_APPLICATION_CREDENTIALS = 'secrets/big_key.json'
+
 client = bigquery.Client.from_service_account_json(
     GOOGLE_APPLICATION_CREDENTIALS)
 

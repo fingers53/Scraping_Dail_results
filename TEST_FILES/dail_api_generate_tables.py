@@ -295,7 +295,11 @@ def get_dail_members_party_history(latest_dail : int):
     df[['start', 'end']] = df['date_range'].apply(lambda x: pd.Series({'start': x['start'], 'end': x['end']}))
     
     # Dataframe to be uploaded 
-    df = df[['party', 'member', 'start', 'end',"houseCode","house_no"]].drop_duplicates()
+    df = (df[['party', 'member', 'start', 'end',"houseCode","house_no"]]
+          .drop_duplicates()
+          .rename(columns={'start': 'start_of_term', 
+                           'end': 'end_of_term'})
+          )
         
      # used in 
     project_id= "red-bus-371614"        
@@ -309,7 +313,26 @@ def get_dail_members_party_history(latest_dail : int):
     return df
 
 if __name__ == "__main__":
-    a = get_dail_constituencies_all(33)
-    aa = get_dail_members_all(33)
+    #a = get_dail_constituencies_all(33)
+    #aa = get_dail_members_all(33)
     aaa = get_dail_members_party_history(33)
     
+    """
+    # get dail history : number of 
+    headers = {
+    'accept': 'application/json',
+    }
+    
+    params = {
+    'chamber_id': '',
+    'chamber': 'dail',
+    'limit': '5000',
+    }
+
+    response = requests.get('https://api.oireachtas.ie/v1/houses', params=params, headers=headers).json()
+
+
+    # The memebers that make up each dail 
+    memebers_of_dail  = response['results']
+    """
+     
