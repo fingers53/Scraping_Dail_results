@@ -77,6 +77,7 @@ def upload(dataframe,destination_table,what_to_if_table_exists,project_id,creden
 
 file_name_irelandelection = "../irelandelection/ALL_CANDIDATES.parquet"
 
+
 df_irelandelection = (pd.read_parquet(file_name_irelandelection)
                       .rename(
                          columns={'first_pref_quota_ratio':'pct_of_quota_reached_with_first_pref',
@@ -85,3 +86,47 @@ df_irelandelection = (pd.read_parquet(file_name_irelandelection)
                       .reset_index()
                       .drop(columns=['index'])
                       )
+
+### Other 
+'date', 'election_type', 'party', 'status', 'constituency_name',
+'first_pref_count', 'first_pref_pct',
+'pct_of_quota_reached_with_first_pref', 'ran_unopposed', 'candidate',
+'candidate_ID', 'year', 'Year_', 'Month', 'Day', 'elected'
+### This 
+'election', 'elected', 'party', 'first_pref_pct', 'first_pref_count',
+'pct_of_quota_reached_with_first_pref', 'year', 'candidate',
+'constituency_name', 'election_type'
+
+
+# elected # (status)
+"""
+False, True
+"""
+
+# election_type # 
+"""
+, 'LOCAL'
+-> No SEANAD data
+"""
+
+### GE ###
+#values_all =
+
+
+values_2020 = (df_irelandelection[~df_irelandelection.year.isin([2019])]
+               .query("election_type != ['BI-ELECTION', 'EUROPEAN', 'LOCAL']") # remove seanad election
+                # remove Ceann Comhairle 
+               #.query("status != ['Appointed','awaiting update','Resigned']") 
+               
+               )
+
+### LE ###
+"""
+    - 2019 : 
+"""
+values_locals = (df_irelandelection
+               .query("election_type != ['BI-ELECTION', 'EUROPEAN', 'GENERAL']") # remove seanad election
+               #.query("candidate_ID != '3694'") # remove Ceann Comhairle 
+               #.query("status != ['Appointed','awaiting update','Resigned']") # remove Ceann Comhairle 
+              
+               )

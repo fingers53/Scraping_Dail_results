@@ -309,8 +309,6 @@ constituency_bad_data = [
 '(Replaced  Willie P Farrell)',
 '(Replaced by  Billy Gogarty)',
 '(Replaced by  Una Sheridan)',
-'Administrative Panel',
-'Agricultural Panel',
 'Attorney General',
 'Cathaoirleach (Seanad Speaker)',
 'Ceann Comhairle (Speaker)',
@@ -320,7 +318,6 @@ constituency_bad_data = [
 'Constituency TD',
 'Crown Steward and Bailiff of the Manor of Northstead',
 'Crown Steward and Bailiff of the three Chiltern Hundreds of Stoke, Desborough and Burnham',
-'Cultural and Educational Panel',
 '28460',
 'EU Commission President',
 'EU Commissioner for Administrative Affairs, Audit and Anti-Fraud',
@@ -349,15 +346,7 @@ constituency_bad_data = [
 'EU Commissioner for Transport',
 'European Court of Auditors',
 'First Minister of Northern Ireland',
-'Industrial and Commercial Panel',
-'Inishowen',
-'Inner City North',
-'Inner City South',
-'Inner City South East',
-'Inner City South West',
-'Ireland',
 '26665',
-'Labour Panel',
 'Leas Cathaoirleach (Deputy Seanad Speaker)',
 'MEP',
 '26724',
@@ -389,12 +378,18 @@ constituency_bad_data = [
 'Minister for Transport',
 'Minister for Transport and the Marine',
 'Minister of State for Environmental Protection',
-'Nominated by President of Executive Council',
-'Nominated by Taoiseach',
 'President of the Executive Council',
 'Tanaiste',
 'Taoiseach'
 ]
+
+SEANAD_constituency_name = ['Administrative Panel',
+'Agricultural Panel',
+'Cultural and Educational Panel',
+'Industrial and Commercial Panel',
+'Labour Panel',
+'Nominated by President of Executive Council',
+'Nominated by Taoiseach']
 
 con_bad = df_electionsireland[df_electionsireland['constituency_name'].isin(constituency_bad_data)]
 # status #
@@ -572,6 +567,47 @@ values_2011_fix = (df_electionsireland[df_electionsireland.year.isin([2011.0])]
                )
 
 
+###
+"""
+    - Need an election dataframe
+        - election_type (hard): 
+            + Do not include : None 
+            + Include : 
+        - status (hard): 
+            + Do not include : 
+            + Include
+        - constituency_name (soft): 
+            + 
+        - ran_unopposed
+            + Check this first before vote data
+            + If "True" then 
+            
+            - first_pref_count (hard):
+                +
+                +
+            - first_pref_pct (hard):
+                +
+            - pct_of_quota_reached_with_first_pref (hard):
+                +
+        - elected (hard):
+
+    - Need an non election information dataframe
+        - status :  'Appointed',
+                    'Died in office:',
+                    'Disqualified',
+                    'Elected',
+                    'Not Elected',
+                    'Resigned'
+                    
+                        - places : are included in a replacment situation
+                                   'Drumcliff',
+                                   'Dublin',
+                                   'Inishowen',
+                                   'Lucan',
+                                   
+              
+"""
+
 ### Upload ###
  # used in 
 project_id= "red-bus-371614"        
@@ -580,7 +616,7 @@ credentials = service_account.Credentials.from_service_account_file('./../secret
 destination_table = 'election_results.electionsireland'
 what_to_if_table_exists = 'replace' 
 
-upload(df_electionsireland,destination_table,'replace',project_id,credentials)# uploades dataframe to bigquery
+# upload(df_electionsireland,destination_table,'replace',project_id,credentials)# uploades dataframe to bigquery
 
 
 
