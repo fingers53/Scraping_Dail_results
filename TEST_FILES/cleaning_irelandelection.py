@@ -76,6 +76,7 @@ def upload(dataframe,destination_table,what_to_if_table_exists,project_id,creden
 """
 
 file_name_irelandelection = "../irelandelection/ALL_CANDIDATES.parquet"
+file_name_irelandelection_bar = "../irelandelection/ALL_CANDIDATES_bar.parquet"
 
 
 df_irelandelection = (pd.read_parquet(file_name_irelandelection)
@@ -86,6 +87,16 @@ df_irelandelection = (pd.read_parquet(file_name_irelandelection)
                       .reset_index()
                       .drop(columns=['index'])
                       )
+df_ = (pd.read_parquet(file_name_irelandelection_bar)
+                      .rename(
+                         columns={'first_pref_quota_ratio':'pct_of_quota_reached_with_first_pref',
+                                  'constituency':'constituency_name'}
+                         )
+                      .reset_index()
+                      .drop(columns=['index'])
+                      )
+
+
 
 ### Other 
 'date', 'election_type', 'party', 'status', 'constituency_name',
@@ -112,8 +123,7 @@ False, True
 ### GE ###
 #values_all =
 
-
-values_2020 = (df_irelandelection[~df_irelandelection.year.isin([2019])]
+values_2020 = (df_irelandelection
                .query("election_type != ['BI-ELECTION', 'EUROPEAN', 'LOCAL']") # remove seanad election
                 # remove Ceann Comhairle 
                #.query("status != ['Appointed','awaiting update','Resigned']") 
@@ -128,5 +138,19 @@ values_locals = (df_irelandelection
                .query("election_type != ['BI-ELECTION', 'EUROPEAN', 'GENERAL']") # remove seanad election
                #.query("candidate_ID != '3694'") # remove Ceann Comhairle 
                #.query("status != ['Appointed','awaiting update','Resigned']") # remove Ceann Comhairle 
-              
+               
                )
+
+
+
+### Upload ###
+ # used in 
+project_id= "red-bus-371614"        
+credentials = service_account.Credentials.from_service_account_file('./../secrets/big_key.json')
+
+destination_table = 'election_results.'
+what_to_if_table_exists = 'replace' 
+
+# upload(df_electionsireland,destination_table,'replace',project_id,credentials)# uploades dataframe to bigquery
+
+
